@@ -15,6 +15,7 @@
 		BBE69AB728C88AA60016F6FD /* NodeTestTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE69AB628C88AA60016F6FD /* NodeTestTestUITests.swift */; };
 		BBE69AB928C88AA60016F6FD /* NodeTestTestUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE69AB828C88AA60016F6FD /* NodeTestTestUITestsLaunchTests.swift */; };
 		BBE69AC628C88ABF0016F6FD /* MyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE69AC528C88ABF0016F6FD /* MyNode.swift */; };
+		BBE69AC828C8B9130016F6FD /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE69AC728C8B9130016F6FD /* EditorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		BBE69AB628C88AA60016F6FD /* NodeTestTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTestTestUITests.swift; sourceTree = "<group>"; };
 		BBE69AB828C88AA60016F6FD /* NodeTestTestUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTestTestUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BBE69AC528C88ABF0016F6FD /* MyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNode.swift; sourceTree = "<group>"; };
+		BBE69AC728C8B9130016F6FD /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				BBE69A9A28C88AA50016F6FD /* NodeTestTestApp.swift */,
 				BBE69A9C28C88AA50016F6FD /* ContentView.swift */,
 				BBE69AC528C88ABF0016F6FD /* MyNode.swift */,
+				BBE69AC728C8B9130016F6FD /* EditorView.swift */,
 				BBE69A9E28C88AA60016F6FD /* Assets.xcassets */,
 				BBE69AA328C88AA60016F6FD /* NodeTestTest.entitlements */,
 				BBE69AA028C88AA60016F6FD /* Preview Content */,
@@ -263,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBE69A9D28C88AA50016F6FD /* ContentView.swift in Sources */,
+				BBE69AC828C8B9130016F6FD /* EditorView.swift in Sources */,
 				BBE69A9B28C88AA50016F6FD /* NodeTestTestApp.swift in Sources */,
 				BBE69AC628C88ABF0016F6FD /* MyNode.swift in Sources */,
 			);

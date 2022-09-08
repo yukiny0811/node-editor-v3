@@ -8,12 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    var model = MyNodeModel()
     var body: some View {
-        MyNode()
-        Button("wow") {
-            print(model[keyPath: \.output1])
-        }
+        EditorView()
     }
 }
 

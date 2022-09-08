@@ -8,22 +8,44 @@
 import SwiftUI
 import Combine
 
-class MyNodeModel: ObservableObject {
-    @InputModel var input1: Int = 3
+class NodeModelBase: NSObject, Identifiable, ObservableObject  {
+    let id: String = UUID.init().uuidString
+    var inputKeys: [String] = []
+    override init() {
+    }
+    public func processOnChange() {
+    }
+    func content() -> AnyView {
+        AnyView(Group{})
+    }
+}
+
+class MyNodeModel: NodeModelBase {
+    @objc @InputModel var input1: Int = 3
     @MiddleModel var count: Int = 0
     @OutputModel var output1: Int = 0
-    public func processOnChange() {
+    public override func processOnChange() {
         output1 = input1 * count
     }
-    init() {
+    override init() {
+        super.init()
+        inputKeys = ["input1"]
     }
-    let inputPath: [String : ReferenceWritableKeyPath<MyNodeModel, Int>] = [
-        "input1": \.input1
-    ]
+    override func content() -> AnyView {
+        return AnyView(
+            Group {
+                InputNode()
+                Text(String(self.count))
+                Button("test") {
+                    self.count += 1
+                }
+                Text(String(self.output1))
+            }
+        )
+    }
 }
 
 struct InputNode: View {
-    let path: String
     @State var isMouseOnCircle = false
     var body: some View {
         HStack {
@@ -44,22 +66,9 @@ struct InputNode: View {
                         self.isMouseOnCircle = true
                     }
             }
-            Text(path)
         }
         .frame(width: 300, height: 30)
         .background(.cyan)
-    }
-}
-
-struct MyNode: View {
-    @ObservedObject var model: MyNodeModel = MyNodeModel()
-    var body: some View {
-        InputNode(path: "input1")
-        Text(String(model.count))
-        Button("test") {
-            model.count += 1
-        }
-        Text(String(model.output1))
     }
 }
 
@@ -119,6 +128,7 @@ public struct MiddleModel<Value> {
             object[keyPath: storageKeyPath].value = newValue
             (object as? MyNodeModel)?.processOnChange()
             (object.objectWillChange as? ObservableObjectPublisher)?.send()
+            NodeModelManager.shared.objectWillChange.send()
         }
     }
 }
@@ -148,7 +158,10 @@ public struct OutputModel<Value> {
         set {
             object[keyPath: storageKeyPath].value = newValue
             print(storageKeyPath)
-//            (object as? MyNodeModel)?.updateConnectedInput()
+            let tempModel = NodeModelManager.shared.nodeModels[1]
+            if tempModel != (object as! NodeModelBase) {
+                tempModel.setValue(newValue, forKey: "input1")
+            }
         }
     }
 }
