@@ -10,9 +10,9 @@ import SwiftUI
 
 class NodeModelBase: NSObject, Identifiable, ObservableObject {
     let id: String = UUID.init().uuidString
-    var inputKeys: [String] = []
     var originalPosition: CGPoint = CGPoint(x: 100, y: 100)
     var movePosition = CGPoint.zero
+    var outputConnection: [String: (String, String)] = [:]
     override init() {
     }
     public func processOnChange() {

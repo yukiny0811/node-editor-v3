@@ -12,8 +12,10 @@ import Combine
 @propertyWrapper
 public struct Output<Value> {
     private var value: Value
-    public init (wrappedValue: Value) {
+    private var name: String
+    public init (wrappedValue: Value, name: String) {
         value = wrappedValue
+        self.name = name
     }
     public var wrappedValue: Value {
         get {
@@ -33,11 +35,15 @@ public struct Output<Value> {
         }
         set {
             object[keyPath: storageKeyPath].value = newValue
-            print(storageKeyPath)
-//            let tempModel = NodeModelManager.shared.nodeModels[(object as! NodeModelBase).id]!
-//            if tempModel != (object as! NodeModelBase) {
-//                tempModel.setValue(newValue, forKey: "input1")
-//            }
+            if (object as? NodeModelBase)?.outputConnection[object[keyPath: storageKeyPath].name] != nil {
+                let connection = (object as? NodeModelBase)!.outputConnection[object[keyPath: storageKeyPath].name]!
+                print(connection)
+                for model in GlobalManager.shared.nodeModels {
+                    if model.id == connection.0 {
+                        model.setValue(newValue, forKey: connection.1)
+                    }
+                }
+            }
         }
     }
 }
