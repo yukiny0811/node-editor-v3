@@ -20,7 +20,7 @@ struct InputNode: View {
                     GlobalManager.shared.selectedInputID = self.idString
                 }
         }
-        .frame(width: 300, height: 30)
+        .frame(width: 200, height: 30)
         .background(.cyan)
     }
 }
@@ -45,23 +45,49 @@ struct OutputNode: View {
                     }
                     .onEnded() { _ in
                         guard let oID = GlobalManager.shared.selectedOutputID else {
+                            GlobalManager.shared.selectedOutputID = nil
+                            GlobalManager.shared.selectedInputID = nil
                             return
                         }
                         guard let iID = GlobalManager.shared.selectedInputID else {
+                            GlobalManager.shared.selectedOutputID = nil
+                            GlobalManager.shared.selectedInputID = nil
                             return
                         }
-                        for model in GlobalManager.shared.nodeModels {
-                            if model.id == oID.0 {
-                                model.outputConnection[oID.1] = iID
-                                print(model.outputConnection)
-                                GlobalManager.shared.objectWillChange.send()
-                            }
+                        if oID != self.idString {
+                            GlobalManager.shared.selectedOutputID = nil
+                            GlobalManager.shared.selectedInputID = nil
+                            return
                         }
+                        if oID.0 == iID.0 {
+                            GlobalManager.shared.selectedOutputID = nil
+                            GlobalManager.shared.selectedInputID = nil
+                            return
+                        }
+                        print("idtest", oID, iID)
+                        
+                        
+                        guard GlobalManager.shared.nodeModels[oID.0] != nil else {
+                            return
+                        }
+//                        for model in GlobalManager.shared.nodeModels {
+//                            if model.id == oID.0 {
+                        GlobalManager.shared.nodeModels[oID.0]!.outputConnection[oID.1] = iID
+                        print(GlobalManager.shared.nodeModels[oID.0]!.outputConnection)
+                        let tempValue = GlobalManager.shared.nodeModels[oID.0]!.value(forKey: oID.1)
+                        print(tempValue)
+                        GlobalManager.shared.nodeModels[oID.0]!.setValue(tempValue, forKey: oID.1)
+    
+                        GlobalManager.shared.selectedOutputID = nil
+                        GlobalManager.shared.selectedInputID = nil
+                        return
+//                            }
+//                        }
                     }
                 )
 
         }
-        .frame(width: 300, height: 30)
+        .frame(width: 200, height: 30)
         .background(.cyan)
     }
 }
@@ -72,8 +98,8 @@ class MyNodeSubModel: SubModelBase {
 
 class MyNodeModel: NodeModelBase {
     @objc @Input var input1: Int = 3
-    @Middle var count: Int = 0
-    @Output(name: "output1") var output1: Int = 0
+    @objc @Middle var count: Int = 0
+    @objc @Output var output1: Int = 0
     @ObservedObject var subModel = MyNodeSubModel()
     public override func processOnChange() {
         output1 = input1 * count
@@ -95,8 +121,9 @@ class MyNodeModel: NodeModelBase {
                 Text(String(self.output1))
                 OutputNode(idString: (self.id, "output1"))
             }
-            .frame(minWidth: 200, maxWidth: 200, minHeight: 200)
+            .frame(minWidth: 200, maxWidth: 200)
             .border(Color.gray, width: 2)
+            .fixedSize()
         )
     }
 }

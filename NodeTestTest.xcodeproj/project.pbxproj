@@ -24,6 +24,7 @@
 		BBEDD7E328CA5715001AC8B5 /* CGSize+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEDD7E228CA5715001AC8B5 /* CGSize+.swift */; };
 		BBEDD7E528CA571C001AC8B5 /* CGPoint+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEDD7E428CA571C001AC8B5 /* CGPoint+.swift */; };
 		BBEDD7E728CA5AFE001AC8B5 /* SubModelBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEDD7E628CA5AFE001AC8B5 /* SubModelBase.swift */; };
+		BBEDD7E928CA6545001AC8B5 /* TestNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEDD7E828CA6545001AC8B5 /* TestNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		BBEDD7E228CA5715001AC8B5 /* CGSize+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+.swift"; sourceTree = "<group>"; };
 		BBEDD7E428CA571C001AC8B5 /* CGPoint+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+.swift"; sourceTree = "<group>"; };
 		BBEDD7E628CA5AFE001AC8B5 /* SubModelBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubModelBase.swift; sourceTree = "<group>"; };
+		BBEDD7E828CA6545001AC8B5 /* TestNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 		BBEDD7DB28CA5682001AC8B5 /* MyNode */ = {
 			isa = PBXGroup;
 			children = (
+				BBEDD7E828CA6545001AC8B5 /* TestNode.swift */,
 				BBEDD7DC28CA568E001AC8B5 /* MyNodeModel.swift */,
 			);
 			path = MyNode;
@@ -326,6 +329,7 @@
 				BBEDD7E328CA5715001AC8B5 /* CGSize+.swift in Sources */,
 				BBE69A9D28C88AA50016F6FD /* ContentView.swift in Sources */,
 				BBEDD7DD28CA568E001AC8B5 /* MyNodeModel.swift in Sources */,
+				BBEDD7E928CA6545001AC8B5 /* TestNode.swift in Sources */,
 				BBEDD7E528CA571C001AC8B5 /* CGPoint+.swift in Sources */,
 				BBEDD7D628CA55DC001AC8B5 /* Middle.swift in Sources */,
 				BBEDD7D828CA5608001AC8B5 /* Output.swift in Sources */,

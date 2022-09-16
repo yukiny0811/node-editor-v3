@@ -10,7 +10,7 @@ import SwiftUI
 
 class GlobalManager: ObservableObject {
     static let shared = GlobalManager()
-    @Published var nodeModels: [NodeModelBase] = []
+    @Published var nodeModels: [String: NodeModelBase] = [:]
     @Published var selectedOutputID: (String, String)?
     @Published var selectedInputID: (String, String)?
 }

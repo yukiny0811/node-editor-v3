@@ -17,43 +17,86 @@ struct EditorView: View, Identifiable {
             GeometryReader {reader in
                 ZStack {
                     Button("add") {
-                        let tempModel = MyNodeModel()
-                        manager.nodeModels.append(tempModel)
+                        let tempModel = TestNodeModel()
+                        manager.nodeModels[tempModel.id] = tempModel
                     }
-                    ForEach(manager.nodeModels) { nm in
-                        VStack {
-                            Rectangle()
-                                .frame(width: 20, height: 20, alignment: .center)
-                                .position(nm.originalPosition + nm.movePosition)
-                                .gesture(
-                                    DragGesture()
-                                        .onChanged { value in
-                                            if nil == self.selected {
-                                                self.selected = nm
-                                            }
-                                        }
-                                        .updating(self.$dragOffset, body: { (value, state, transaction) in
-                                            state = value.translation.toCGPoint()
-                                            guard let selected = self.selected else {
-                                                return
-                                            }
-                                            selected.movePosition = dragOffset
-                                        })
-                                        .onEnded { _ in
-                                            guard let selected = self.selected else {
-                                                return
-                                            }
-                                            selected.originalPosition += selected.movePosition
-                                            selected.movePosition = CGPoint.zero
-                                            self.selected = nil
-                                        }
+                    ForEach(Array(manager.nodeModels.values)) { nm in
+//                        ForEach(0..<Array(Mirror(reflecting: nm).children).count) { i in
+//                            Group {
+//                                let elem = Array(Mirror(reflecting: nm).children)[i]
+//                                var c = 0
+//                                let prot = class_copyProtocolList(elem.Self, &c)
+//                                let cname = protocol_getName(prot[0])
+//                                print(cname)
+////                                if arr[i].conforms(to: OutputProtocol) {
+////                                    Text("name: \(arr[i].label!) type: \(String(describing: arr[i].value))")
+////                                } else {
+////                                    EmptyView()
+////                                }
+//                            }
+//                        }
+                        ForEach(0..<Array(Mirror(reflecting: nm).children).count) { i in
+                            Group { () -> TupleView<(Text, Text)> in
+                                let elem = Array(Mirror(reflecting: nm).children)[i]
+                                var c: UInt32 = 0
+                                let rawString = String(describing: elem.value)
+                                if rawString.contains("Input<") {
+                                    
+                                }
+                                if rawString.contains("Output<") {
+                                    
+                                }
+//                                let prot = class_copyProtocolList(NSClassFromString(elem.label), &c)
+//                                let cname = protocol_getName(prot[0])
+//                                print(cname)
+                                return ViewBuilder.buildBlock(
+                                    Text(""),
+                                    Text("")
                                 )
-                            nm.content()
-                                .frame(width: 100, height: 100, alignment: .center)
-                                .position(nm.originalPosition + nm.movePosition)
+                            }
                         }
-                        .frame(width: 100, height: 200, alignment: .center)
+                        VStack(alignment: .leading, spacing: 0) {
+                            Rectangle()
+                                .frame(width: 20, height: 20)
+                                
+                            nm.content()
+                                .fixedSize()
+//                                .position(nm.originalPosition + nm.movePosition)
+                        }
+                        .border(.gray, width: 3)
+                        .position(nm.originalPosition + nm.movePosition)
+                        .fixedSize()
+                        .gesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { value in
+                                    if nil == self.selected {
+                                        self.selected = nm
+                                    }
+                                    self.selected?.movePosition = value.translation.toCGPoint()
+                                    print(self.selected?.movePosition)
+                                    print("started")
+                                    manager.objectWillChange.send()
+                                }
+//                                .updating(self.$dragOffset, body: { (value, state, transaction) in
+//                                    state = value.translation.toCGPoint()
+//                                    print("updating")
+//                                    guard let selected = self.selected else {
+//                                        return
+//                                    }
+//                                    selected.movePosition = dragOffset
+//                                })
+                                .onEnded { _ in
+                                    guard let selected = self.selected else {
+                                        return
+                                    }
+                                    print("ended")
+                                    selected.originalPosition += selected.movePosition
+                                    selected.movePosition = CGPoint.zero
+                                    self.selected = nil
+                                }
+                        )
                     }
+                    
                 }
                 .frame(minWidth: 1500, minHeight: 1500, alignment: .center)
             }

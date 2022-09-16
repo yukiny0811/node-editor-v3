@@ -9,13 +9,13 @@ import Foundation
 import SwiftUI
 import Combine
 
+protocol OutputProtocol {}
+
 @propertyWrapper
-public struct Output<Value> {
+public struct Output<Value> : OutputProtocol{
     private var value: Value
-    private var name: String
-    public init (wrappedValue: Value, name: String) {
+    public init (wrappedValue: Value) {
         value = wrappedValue
-        self.name = name
     }
     public var wrappedValue: Value {
         get {
@@ -35,15 +35,14 @@ public struct Output<Value> {
         }
         set {
             object[keyPath: storageKeyPath].value = newValue
-            if (object as? NodeModelBase)?.outputConnection[object[keyPath: storageKeyPath].name] != nil {
-                let connection = (object as? NodeModelBase)!.outputConnection[object[keyPath: storageKeyPath].name]!
-                print(connection)
-                for model in GlobalManager.shared.nodeModels {
-                    if model.id == connection.0 {
-                        model.setValue(newValue, forKey: connection.1)
-                    }
-                }
+            
+            let selfName = NSExpression(forKeyPath: wrappedKeyPath).keyPath
+            let tempOutputConnection = (object as? NodeModelBase)?.outputConnection[selfName]
+            
+            guard let outputConnection = tempOutputConnection else {
+                return
             }
+            GlobalManager.shared.nodeModels[outputConnection.0]!.setValue(newValue, forKey: outputConnection.1)
         }
     }
 }

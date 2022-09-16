@@ -9,8 +9,10 @@ import Foundation
 import SwiftUI
 import Combine
 
+protocol InputProtocol {}
+
 @propertyWrapper
-public struct Input<Value> {
+public struct Input<Value> : InputProtocol {
     private var value: Value
     public init (wrappedValue: Value) {
         value = wrappedValue
