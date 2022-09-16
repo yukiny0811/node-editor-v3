@@ -30,8 +30,6 @@ class TestNodeModel: NodeModelBase {
                 Text(String(self.output1))
                 OutputNode(idString: (self.id, "output1"))
             }
-//            .frame(minWidth: 200, maxWidth: 200)
-//            .border(Color.gray, width: 2)
         )
     }
 }

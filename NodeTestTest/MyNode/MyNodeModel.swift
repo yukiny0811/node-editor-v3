@@ -12,16 +12,17 @@ struct InputNode: View {
     let idString: (String, String)
     var body: some View {
         HStack {
-            Circle()
+            Rectangle()
                 .fill(.yellow)
                 .frame(width: 20, height: 20, alignment: .leading)
                 .onHover{ hovering in
                     print("test")
                     GlobalManager.shared.selectedInputID = self.idString
                 }
+            Text(idString.1)
         }
-        .frame(width: 200, height: 30)
-        .background(.cyan)
+        .frame(width: 200, height: 30, alignment: .leading)
+        .background(Color(nsColor: .lightGray))
     }
 }
 
@@ -29,7 +30,8 @@ struct OutputNode: View {
     let idString: (String, String)
     var body: some View {
         HStack {
-            Circle()
+            Text(idString.1)
+            Rectangle()
                 .fill(.yellow)
                 .frame(width: 20, height: 20, alignment: .leading)
                 .gesture(DragGesture()
@@ -87,8 +89,9 @@ struct OutputNode: View {
                 )
 
         }
-        .frame(width: 200, height: 30)
-        .background(.cyan)
+        .frame(width: 200, height: 30, alignment: .trailing)
+        .background(Color(nsColor: .lightGray))
+        
     }
 }
 
@@ -99,8 +102,8 @@ class MyNodeSubModel: SubModelBase {
 class MyNodeModel: NodeModelBase {
     @objc @Input var input1: Int = 3
     @objc @Middle var count: Int = 0
-    @objc @Output var output1: Int = 0
     @ObservedObject var subModel = MyNodeSubModel()
+    @objc @Output var output1: Int = 0
     public override func processOnChange() {
         output1 = input1 * count
     }
